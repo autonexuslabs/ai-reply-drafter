@@ -1,0 +1,15 @@
+{
+  "name": "Northwind Heating & Air",
+  "owner": "Maria",
+  "signature": "Maria\nNorthwind Heating & Air\n(816) 555-0101",
+  "phone": "(816) 555-0101",
+  "website": "https://northwind-heating.example",
+  "services": ["furnace repair and replacement", "air conditioner repair and replacement", "heat pumps", "water heaters", "thermostats", "seasonal maintenance plans"],
+  "serviceArea": ["Kansas City", "Independence", "Liberty", "Lee's Summit", "Raytown", "Grandview"],
+  "hours": "Monday to Friday 7am-6pm, Saturday 8am-2pm. Emergency line answered 24/7.",
+  "policies": [
+    "We never quote prices by email or phone. A technician gives a written estimate at the home, and the estimate visit is free for replacements.",
+    "Repair visits are booked in two-hour windows. The office confirms the window by text.",
+    "We do not service commercial rooftop units."
+  ]
+}

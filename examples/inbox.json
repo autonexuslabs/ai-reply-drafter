@@ -1,0 +1,8 @@
+[
+  { "id": "msg-001", "from": "Karen <karen@familymail.example>", "subject": "Furnace replacement cost?", "body": "Hi, our furnace is 20 years old and making a rattling noise. Roughly how much do you charge to replace one? Trying to budget." },
+  { "id": "msg-002", "from": "tom.r@homebox.example", "subject": "AC not cooling", "body": "Our AC is running but blowing warm air since yesterday. Could someone come out Thursday afternoon? We're in Raytown." },
+  { "id": "msg-003", "from": "Jess <jess@inbox.example>", "subject": "Smell in basement", "body": "There's a strong gas smell near our water heater in the basement, is that something you can look at this week?" },
+  { "id": "msg-004", "from": "D. Walker <dwalker@mail.example>", "subject": "Very disappointed", "body": "Your tech came Tuesday, left a mess in my basement, and the thermostat still doesn't work. I paid for this. Not happy." },
+  { "id": "msg-005", "from": "sam@liberty-home.example", "subject": "Heat pump question", "body": "Do you service heat pumps in Liberty? Ours is a Trane, about 6 years old, and the outdoor unit keeps icing up." },
+  { "id": "msg-006", "from": "growth@rankfast-seo.example", "subject": "Page 1 of Google guaranteed", "body": "Hello business owner, we can get northwind-heating.example to page 1 of Google in 30 days. Reply YES for a free audit." }
+]

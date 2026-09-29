@@ -1,0 +1,19 @@
+{
+  "name": "ai-reply-drafter",
+  "version": "1.0.0",
+  "description": "Claude drafts replies to customer emails; a person reviews, edits and approves every one. Safety and promise checks live in code, not in the prompt.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test",
+    "demo": "node --env-file-if-exists=.env bin/draft.js --inbox examples/inbox.json",
+    "review": "node bin/review.js",
+    "review:sample": "node -e \"require('fs').copyFileSync('examples/sample-queue.json','queue.json')\" && node bin/review.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.129.0"
+  }
+}

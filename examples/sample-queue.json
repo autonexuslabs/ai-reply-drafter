@@ -1,0 +1,120 @@
+[
+  {
+    "id": "msg-001",
+    "from": "Karen <karen@familymail.example>",
+    "subject": "Furnace replacement cost?",
+    "body": "Hi, our furnace is 20 years old and making a rattling noise. Roughly how much do you charge to replace one? Trying to budget.",
+    "status": "pending",
+    "createdAt": "2026-09-29T07:19:27.048Z",
+    "source": "claude-sonnet-5-5",
+    "intent": "quote_request",
+    "urgency": "normal",
+    "summary": "Karen wants a rough cost to replace her 20-year-old furnace, which is rattling; she is budgeting.",
+    "draft": "Hi Karen,\n\nThank you for reaching out. We don't quote prices by email or phone, since every home is different. Instead, a technician comes to your home, looks at the setup, and gives you a written estimate. That visit is free for replacements, so it's a good way to get real numbers for your budget. The technician can also check the furnace and the rattling noise while there. If you'd like to book, please send me your address, a good phone number, and the days that work best for you. I can set up a two-hour window, and our office will confirm it by text.\n\nMaria\nNorthwind Heating & Air\n(816) 555-0101",
+    "missing_info": [
+      "Service address",
+      "Good phone number",
+      "Preferred days"
+    ],
+    "needs_human": false,
+    "needs_human_reason": "",
+    "flags": []
+  },
+  {
+    "id": "msg-002",
+    "from": "tom.r@homebox.example",
+    "subject": "AC not cooling",
+    "body": "Our AC is running but blowing warm air since yesterday. Could someone come out Thursday afternoon? We're in Raytown.",
+    "status": "pending",
+    "createdAt": "2026-09-29T07:19:30.561Z",
+    "source": "claude-sonnet-5-5",
+    "intent": "booking",
+    "urgency": "normal",
+    "summary": "Tom R. in Raytown says his AC runs but blows warm air since yesterday and wants a repair visit Thursday afternoon.",
+    "draft": "Hi Tom,\n\nThanks for reaching out. Sorry to hear your AC is blowing warm air, and yes, we serve Raytown. A technician can check the system when they visit. I can book a two-hour repair window for Thursday afternoon, and the office will confirm the exact window by text. To get that set up, could you send me your street address and the best phone number to reach you?\n\nMaria\nNorthwind Heating & Air\n(816) 555-0101",
+    "missing_info": [
+      "Service address",
+      "Good phone number (for text confirmation)"
+    ],
+    "needs_human": false,
+    "needs_human_reason": "",
+    "flags": []
+  },
+  {
+    "id": "msg-003",
+    "from": "Jess <jess@inbox.example>",
+    "subject": "Smell in basement",
+    "body": "There's a strong gas smell near our water heater in the basement, is that something you can look at this week?",
+    "status": "pending",
+    "createdAt": "2026-09-29T07:19:33.514Z",
+    "source": "safety-script",
+    "intent": "emergency",
+    "urgency": "high",
+    "summary": "Possible emergency (gas smell). Call the customer now.",
+    "draft": "If you smell gas or a carbon monoxide alarm is sounding, please leave the house now and call 911 from outside. Don't switch lights or appliances on or off on the way out. Once you're safe, call our emergency line at (816) 555-0101, which is answered around the clock.\n\nMaria\nNorthwind Heating & Air\n(816) 555-0101",
+    "missing_info": [],
+    "needs_human": true,
+    "needs_human_reason": "gas smell: the model was not asked. Phone them, do not rely on email.",
+    "flags": []
+  },
+  {
+    "id": "msg-004",
+    "from": "D. Walker <dwalker@mail.example>",
+    "subject": "Very disappointed",
+    "body": "Your tech came Tuesday, left a mess in my basement, and the thermostat still doesn't work. I paid for this. Not happy.",
+    "status": "pending",
+    "createdAt": "2026-09-29T07:19:33.514Z",
+    "source": "claude-sonnet-5-5",
+    "intent": "complaint",
+    "urgency": "high",
+    "summary": "D. Walker is unhappy: the technician visited Tuesday, left a mess in the basement, and the thermostat still doesn't work after they paid for the visit.",
+    "draft": "Hello,\n\nI'm sorry about the mess in your basement and that your thermostat still isn't working after Tuesday's visit. That isn't the service we want to give you. I'm going to look into what happened on the visit and follow up with you personally. So we can get a return visit set up, could you send your address, a good phone number, and the days that work best for you? We book visits in two-hour windows, and the office confirms the window by text.\n\nMaria\nNorthwind Heating & Air\n(816) 555-0101",
+    "missing_info": [
+      "Service address",
+      "Good phone number",
+      "Preferred days for a return visit",
+      "Details of the Tuesday visit (date, technician, invoice if available)"
+    ],
+    "needs_human": true,
+    "needs_human_reason": "Customer complaint about work quality, a mess left behind, and an unresolved thermostat problem after a paid visit. Maria should review the job record and consider a personal call and any refund or redo decision. The draft makes no promises on either.",
+    "flags": []
+  },
+  {
+    "id": "msg-005",
+    "from": "sam@liberty-home.example",
+    "subject": "Heat pump question",
+    "body": "Do you service heat pumps in Liberty? Ours is a Trane, about 6 years old, and the outdoor unit keeps icing up.",
+    "status": "pending",
+    "createdAt": "2026-09-29T07:19:37.975Z",
+    "source": "claude-sonnet-5-5",
+    "intent": "question",
+    "urgency": "normal",
+    "summary": "Sam in Liberty asks if we service heat pumps; 6-year-old Trane with outdoor unit icing up. Wants repair.",
+    "draft": "Hi Sam,\n\nYes, we service heat pumps, and Liberty is in our service area. I can't say what is causing the icing from here, but a technician will check the unit when they visit. Repair visits are booked in two-hour windows, and our office confirms the window by text. If you'd like to book, please send me your address, a good phone number, and the days that work best for you. I can also be reached at the number below if you'd rather talk it through.\n\nMaria\nNorthwind Heating & Air\n(816) 555-0101",
+    "missing_info": [
+      "Service address",
+      "Good phone number",
+      "Preferred days"
+    ],
+    "needs_human": false,
+    "needs_human_reason": "",
+    "flags": []
+  },
+  {
+    "id": "msg-006",
+    "from": "growth@rankfast-seo.example",
+    "subject": "Page 1 of Google guaranteed",
+    "body": "Hello business owner, we can get northwind-heating.example to page 1 of Google in 30 days. Reply YES for a free audit.",
+    "status": "pending",
+    "createdAt": "2026-09-29T07:19:41.426Z",
+    "source": "claude-sonnet-5-5",
+    "intent": "spam",
+    "urgency": "low",
+    "summary": "Unsolicited SEO marketing pitch from rankfast-seo.example promising page 1 Google ranking; no reply needed.",
+    "draft": "",
+    "missing_info": [],
+    "needs_human": false,
+    "needs_human_reason": "",
+    "flags": []
+  }
+]

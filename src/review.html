@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reply drafts</title>
+<style>
+  :root {
+    --bg: #f6f5f2; --card: #fff; --text: #1c1b19; --muted: #6b6862; --line: #e4e1da;
+    --accent: #2457d6; --accent-ink: #fff; --red: #b42318; --red-bg: #fdecea; --amber: #8a5a00; --amber-bg: #fff4d6;
+    --green: #146c43; --green-bg: #e3f4ea; --chip: #efede8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #141414; --card: #1d1d1c; --text: #ecebe8; --muted: #a09d96; --line: #2e2d2b;
+      --accent: #6d95ff; --accent-ink: #0b1020; --red: #ff8a80; --red-bg: #3a1714; --amber: #ffcf66; --amber-bg: #33280f;
+      --green: #7ad7a4; --green-bg: #12301f; --chip: #2a2927;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  header { position: sticky; top: 0; z-index: 1; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  .bar { max-width: 1040px; margin: 0 auto; padding: 14px 20px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  h1 { font-size: 17px; margin: 0; font-weight: 650; }
+  .tabs { display: flex; gap: 4px; margin-left: auto; }
+  .tab { border: 1px solid var(--line); background: none; color: var(--muted); padding: 5px 12px; border-radius: 999px; font: inherit; font-size: 13px; cursor: pointer; }
+  .tab[aria-pressed="true"] { background: var(--text); color: var(--bg); border-color: var(--text); }
+  main { max-width: 1040px; margin: 0 auto; padding: 20px; display: grid; gap: 16px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px; }
+  .card.urgent { border-color: var(--red); box-shadow: 0 0 0 1px var(--red) inset; }
+  .top { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+  .from { font-weight: 600; }
+  .subject { color: var(--muted); }
+  .badges { display: flex; gap: 6px; flex-wrap: wrap; margin: 10px 0 4px; }
+  .badge { font-size: 12px; padding: 2px 9px; border-radius: 999px; background: var(--chip); color: var(--muted); }
+  .badge.high { background: var(--red-bg); color: var(--red); font-weight: 600; }
+  .badge.human { background: var(--amber-bg); color: var(--amber); font-weight: 600; }
+  .badge.done { background: var(--green-bg); color: var(--green); }
+  .summary { margin: 6px 0 14px; }
+  .reason { font-size: 13px; color: var(--amber); margin: -8px 0 14px; }
+  .cols { display: grid; grid-template-columns: 1fr 1.3fr; gap: 14px; }
+  @media (max-width: 760px) { .cols { grid-template-columns: 1fr; } .tabs { margin-left: 0; } }
+  .label { font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin-bottom: 6px; }
+  .msg { white-space: pre-wrap; background: var(--bg); border-radius: 10px; padding: 12px; font-size: 14px; }
+  textarea { width: 100%; min-height: 250px; resize: vertical; border: 1px solid var(--line); border-radius: 10px; padding: 12px; font: inherit; font-size: 14px; background: var(--card); color: var(--text); }
+  textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .missing { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; font-size: 13px; color: var(--muted); align-items: center; }
+  .actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 14px; align-items: center; }
+  .src { margin-right: auto; font-size: 12px; color: var(--muted); }
+  button.primary { background: var(--accent); color: var(--accent-ink); border: 0; padding: 8px 16px; border-radius: 9px; font: inherit; font-weight: 600; cursor: pointer; }
+  button.ghost { background: none; color: var(--muted); border: 1px solid var(--line); padding: 8px 14px; border-radius: 9px; font: inherit; cursor: pointer; }
+  .empty { text-align: center; color: var(--muted); padding: 60px 0; }
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <h1 id="title">Reply drafts</h1>
+    <div class="tabs" role="group" aria-label="Filter">
+      <button class="tab" data-f="pending" aria-pressed="true">Pending</button>
+      <button class="tab" data-f="approved" aria-pressed="false">Approved</button>
+      <button class="tab" data-f="rejected" aria-pressed="false">Rejected</button>
+    </div>
+  </div>
+</header>
+<main id="list"></main>
+<script>
+  let items = []
+  let filter = 'pending'
+  const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c])
+  const label = (s) => s.replace(/_/g, ' ')
+
+  async function load() {
+    items = await (await fetch('/api/queue')).json()
+    render()
+  }
+
+  function card(d) {
+    const pending = d.status === 'pending'
+    const badges = [
+      `<span class="badge">${esc(label(d.intent))}</span>`,
+      `<span class="badge ${d.urgency === 'high' ? 'high' : ''}">${esc(d.urgency)} urgency</span>`,
+      d.needs_human ? '<span class="badge human">needs you</span>' : '',
+      !pending ? `<span class="badge done">${esc(d.status)}${d.edited ? ', edited' : ''}</span>` : '',
+    ].join('')
+    const missing = (d.missing_info || []).length
+      ? `<div class="missing">Still needed: ${d.missing_info.map((m) => `<span class="badge">${esc(m)}</span>`).join('')}</div>` : ''
+    const draftBox = d.intent === 'spam' && !d.draft
+      ? '<div class="msg">No reply drafted. Reject to archive.</div>'
+      : `<textarea ${pending ? '' : 'readonly'} aria-label="Draft reply">${esc(d.finalText ?? d.draft)}</textarea>`
+    return `<article class="card ${d.urgency === 'high' && pending ? 'urgent' : ''}" data-id="${esc(d.id)}">
+      <div class="top"><span class="from">${esc(d.from)}</span><span class="subject">${esc(d.subject)}</span></div>
+      <div class="badges">${badges}</div>
+      <div class="summary">${esc(d.summary)}</div>
+      ${d.needs_human && d.needs_human_reason ? `<div class="reason">⚑ ${esc(d.needs_human_reason)}</div>` : ''}
+      <div class="cols">
+        <div><div class="label">Their message</div><div class="msg">${esc(d.body)}</div></div>
+        <div><div class="label">Draft reply</div>${draftBox}${missing}</div>
+      </div>
+      <div class="actions">
+        <span class="src">drafted by ${esc(d.source)}</span>
+        ${pending ? `<button class="ghost" data-act="reject">Reject</button>${d.draft ? '<button class="primary" data-act="approve">Approve</button>' : ''}` : ''}
+      </div>
+    </article>`
+  }
+
+  function render() {
+    // What needs a person first: high urgency, then anything flagged, then the rest.
+    const rank = (d) => (d.urgency === 'high' ? 0 : d.needs_human ? 1 : 2)
+    const shown = items.filter((i) => i.status === filter).sort((a, b) => rank(a) - rank(b))
+    const pending = items.filter((i) => i.status === 'pending').length
+    document.getElementById('title').textContent = `Reply drafts · ${pending} pending`
+    document.getElementById('list').innerHTML = shown.length ? shown.map(card).join('') : `<div class="empty">Nothing ${filter}.</div>`
+  }
+
+  document.addEventListener('click', async (e) => {
+    const tab = e.target.closest('.tab')
+    if (tab) {
+      filter = tab.dataset.f
+      document.querySelectorAll('.tab').forEach((t) => t.setAttribute('aria-pressed', String(t === tab)))
+      return render()
+    }
+    const btn = e.target.closest('[data-act]')
+    if (!btn) return
+    const el = btn.closest('.card')
+    const text = el.querySelector('textarea')?.value
+    const res = await fetch(`/api/${btn.dataset.act}`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ id: el.dataset.id, text }) })
+    if (!res.ok) return alert((await res.json()).error)
+    load()
+  })
+
+  load()
+</script>
+</body>
+</html>
