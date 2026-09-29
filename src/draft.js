@@ -74,7 +74,9 @@ export async function draftReply({ client, profile, message }) {
 
   const reply = await client.messages.create({
     model: MODEL,
-    max_tokens: 1000,
+    // The budget covers the model's thinking as well as the tool call; too small
+    // a budget ends the turn before the draft is written.
+    max_tokens: 2000,
     system: [{ type: 'text', text: systemPrompt(profile), cache_control: { type: 'ephemeral' } }],
     tools: [TOOL],
     tool_choice: { type: 'auto' },
